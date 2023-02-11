@@ -1,0 +1,60 @@
+<script src="comparearray.js"></script>
+<script>
+let array0 = [
+  {
+    "key0": 0,
+    "key1": 1,
+    "key2": 2
+  },
+  [
+    [
+      "a",
+      "b",
+      "c"
+    ],
+    {
+      "key3": [
+        "d",
+        "e",
+        "f"
+      ],
+      "key4": [
+        "g",
+        "h",
+        "i"
+      ]
+    }
+  ]
+]
+let array1 = [
+  {
+    "key0": 0,
+    "key1": 1,
+    "key2": 2
+  },
+  [
+    [
+      "a",
+      "b",
+      "c"
+    ],
+    {
+      "key3": [
+        "different value from array0",
+        "e",
+        "f"
+      ],
+      "key4": [
+        "g",
+        "h",
+        "i"
+      ]
+    }
+  ]
+]
+comparearray(array0, array1)
+.then(rly => {
+  console.log(rly)
+  // return number is 1. meaning is equal in structure but different values.
+})
+</script>
