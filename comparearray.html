@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>comparearray</title>
+    <link rel="stylesheet" href="../base.css">
+    <link rel="stylesheet" href="../color-scheme-standard.css">
+    <script src="comparearray.js"></script>
+    <style>
+      #container {
+        position: absolute;
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+      }
+      .textarea {
+        display: inline-block;
+        width: 49%;
+        padding: 10px;
+        box-sizing: border-box;
+        line-height: 1.3;
+      }
+      .textarea + .textarea {
+        margin-left: 1%;
+      }
+      #execute {
+        width: 100%;
+        border-width: 1px;
+      }
+      #output {
+        position: relative;
+        width: 50%;
+        margin: 10px auto;
+        line-height: 1.3;
+        border-width: 1px;
+        border-style: solid;
+      }
+      #display {
+        display: inline-block;
+        position: absolute;
+        margin: auto;
+        padding: 10px;
+        box-sizing: border-box;
+        text-align: center;
+      }
+      .textarea,
+      #output {
+        color: var(--dark-0);
+        background-color: var(--light-1);
+        border-color: var(--light-2);
+      }
+      #execute {
+        color: var(--dark-0);
+        background-color: var(--light-2);
+        border-color: var(--light--1);
+      }
+      @media (prefers-color-scheme: dark) {
+        .textarea,
+        #output {
+          color: var(--light-0);
+          background-color: var(--dark-1);
+          border-color: var(--dark-2);
+        }
+        #execute {
+          color: var(--light-0);
+          background-color: var(--dark-2);
+          border-color: var(--light--2);
+        }
+      }
+      .light .textarea,
+      .light #output {
+        color: var(--dark-0);
+        background-color: var(--light-1);
+        border-color: var(--light--2);
+      }
+      .light #execute {
+        color: var(--dark-0);
+        background-color: var(--light-2);
+        border-color: var(--light-0);
+      }
+      .dark .textarea,
+      .dark #output {
+        color: var(--light-0);
+        background-color: var(--dark-1);
+        border-color: var(--dark-2);
+      }
+      .dark #execute {
+        color: var(--light-0);
+        background-color: var(--dark-2);
+        border-color: var(--light--2);
+      }
+    </style>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        let ndl_textarea = document.querySelectorAll(".textarea")
+        Array.from(ndl_textarea).map(rly => rly.style.height = rly.getBoundingClientRect().width * (9 / 16) + "px")
+        let elm_output = document.querySelector("#output")
+        elm_output.style.height = elm_output.getBoundingClientRect().width * (9 / 16) + "px"
+        let elm_container = document.querySelector("#container")
+        elm_container.style.width = elm_container.getBoundingClientRect().width + "px"
+        elm_container.style.height = elm_container.getBoundingClientRect().height + "px"
+        elm_container.style.inset = 0
+        let elm_execute = document.querySelector("#execute")
+        let elm_display = document.querySelector("#display")
+        let message = ""
+        let returnValue = 0
+        elm_execute.onclick = () => {
+          comparearray(Array.from(ndl_textarea[0].value), Array.from(ndl_textarea[1].value))
+          .then(rly => {
+            switch (rly) {
+              case 0:
+                message = "構造も値も等しい。"
+                break
+              case 1:
+                message = "構造は等しいが値は異なる。"
+                break
+              case 2:
+                message = "構造が異なる。"
+                break
+              default:
+                message = "処理が正常に行われませんでした。"
+            }
+            elm_display.innerText = message
+            elm_display.style.width = elm_display.getBoundingClientRect().width + "px"
+            elm_display.style.height = elm_display.getBoundingClientRect().height + "px"
+            elm_display.style.inset = 0
+          })
+        }
+      })
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <textarea id="array0" class="form textarea" placeholder="配列 0">[
+  {"key0": 0},
+  {"key1": 1},
+  {"key2": ["a", "b", "c", "d"]}
+]</textarea>
+      <textarea id="array1" class="form textarea" placeholder="配列 1">[
+  {"key0": 0},
+  {"key1": 1},
+  {"key2": ["a", "b", "c", "diff."]}
+]</textarea>
+      <input type="button" id="execute" class="form" value="処理実行">
+      <div id="output" class="form">
+        <p id="display"></p>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+[
+  {"key0": 0},
+  {"key1": 1},
+  {"key2": ["a", "b", "c", "d"]}
+]
+</script>
