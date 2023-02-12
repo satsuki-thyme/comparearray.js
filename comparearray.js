@@ -5,6 +5,9 @@
   * 2: different structure
 */
 function comparearray(array0, array1) {
+  let message = {
+    "invalidArgument": "引数が不正です。"
+  }
   let fn = {
     operateDouble: async (targetFunction, argumentArray) => {
       return [await targetFunction(argumentArray[0]), await targetFunction(argumentArray[1])]
@@ -90,6 +93,12 @@ function comparearray(array0, array1) {
       }
       return 0 // equal in structure and value
     }
+  }
+  if ((!(array0 instanceof Array) && !(array0 instanceof Object)) || (!(array1 instanceof Array) && !(array1 instanceof Object))) {
+    return new Promise(reject => {
+      console.log(message.invalidArgument)
+      reject(false)
+    })
   }
   return fn.operateDouble(fn.breakDimension, [array0, array1])
   .then(rly => {
