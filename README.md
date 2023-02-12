@@ -18,5 +18,8 @@
   * 1: 構造は等しいが値が異なる
   * 2: 構造が異なる
 
+## 既知の問題
+* 連想配列の key 値が異なっていても構造が等しいと解釈する不具合があります。
+
 ## CDN
 https://cdn.jsdelivr.net/gh/satsuki-thyme/comparearray.js@main/comparearray.min.js
