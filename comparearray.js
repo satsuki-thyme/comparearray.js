@@ -14,13 +14,15 @@ function comparearray(array0, array1) {
     },
     breakDimension: array => {
       let work = []
-      return dimensionTraveler(array, [])
+      return dimensionTraveler(array, [], [])
       function dimensionTraveler(content, passingPoint) {
         return new Promise((resolve, reject) => {
-          if (!(content instanceof Array)) {
+          if (!(content instanceof Array) && !(content instanceof Object)) {
             resolve(work.push({"content": content, "passingPoint": passingPoint}))
           }
           else {
+            let isobject = false
+            if (content instanceof Object) isobject = true
             let promiseArray = []
             for (let i in content) {
               promiseArray.push(dimensionTraveler(content[i], passingPoint.concat(i.toString())))
@@ -63,7 +65,7 @@ function comparearray(array0, array1) {
     },
     compareArray: work => {
       for (let i in work[0]) {
-        if (work[0][i].content.structure !== work[1][i].content.structure) {
+        if (work[0][i].structure !== work[1][i].structure) {
           return 2 // different structure
         }
         else if (work[0][i].content instanceof Object) {
