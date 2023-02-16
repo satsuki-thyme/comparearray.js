@@ -21,11 +21,16 @@ function comparearray(array0, array1) {
             resolve(work.push({"content": content, "passingPoint": passingPoint}))
           }
           else {
-            let isobject = false
-            if (content instanceof Object) isobject = true
             let promiseArray = []
-            for (let i in content) {
-              promiseArray.push(dimensionTraveler(content[i], passingPoint.concat(i.toString())))
+            if (content instanceof Array) {
+              for (let i in content) {
+                promiseArray.push(dimensionTraveler(content[i], passingPoint.concat(i.toString())))
+              }
+            }
+            else {
+              for (let i in content) {
+                promiseArray.push(dimensionTraveler(content[i], passingPoint.concat(i.toString())))
+              }
             }
             Promise.all(promiseArray)
             .then(() => {
