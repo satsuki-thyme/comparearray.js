@@ -22,15 +22,8 @@ function comparearray(array0, array1) {
           }
           else {
             let promiseArray = []
-            if (content instanceof Array) {
-              for (let i in content) {
-                promiseArray.push(dimensionTraveler(content[i], passingPoint.concat(i.toString())))
-              }
-            }
-            else {
-              for (let i in content) {
-                promiseArray.push(dimensionTraveler(content[i], passingPoint.concat(i.toString())))
-              }
+            for (let i in content) {
+              promiseArray.push(dimensionTraveler(content[i], passingPoint.concat(i.toString())))
             }
             Promise.all(promiseArray)
             .then(() => {
