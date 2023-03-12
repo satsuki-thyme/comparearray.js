@@ -9,15 +9,15 @@ function comparearray(array0, array1) {
     "invalidArgument": "引数が不正です。"
   }
   let fn = {
-    operateDouble: async (targetFunction, argumentArray) => {
+    doubleOperator: async (targetFunction, argumentArray) => {
       return [await targetFunction(argumentArray[0]), await targetFunction(argumentArray[1])]
     },
-    breakDimension: array => {
+    dimensionBreaker: array => {
       let work = []
-      return dimensionTraveler(array, [])
+      return dimensionTraveler(array, [], [])
       function dimensionTraveler(content, passingPoint) {
         return new Promise((resolve, reject) => {
-          if (!(content instanceof Array)) {
+          if (!(content instanceof Array) && !(content instanceof Object)) {
             resolve(work.push({"content": content, "passingPoint": passingPoint}))
           }
           else {
@@ -36,34 +36,23 @@ function comparearray(array0, array1) {
         })
       }
     },
-    analyzeStructure: work => {
-      let digitsArray = []
+    structureAnalizer: work => {
+      let digitsArray = work.map(rly => {return Math.max(...rly.passingPoint.map(rly => rly.length))})
       for (let i in work) {
         for (let j in work[i].passingPoint) {
-          if (digitsArray[j] === undefined) {
-            digitsArray[j] = 0
-          }
-          digitsArray[j] = Math.max(digitsArray[j], work[i].passingPoint[j].length)
-        }
-      }
-      for (let i in work) {
-        for (let j in work[i].passingPoint) {
-          work[i].passingPoint[j] = `${"0".repeat(digitsArray[j] - 1)}${work[i].passingPoint[j]}`.slice(-digitsArray[j])
+          work[i].passingPoint[j] = `${"0".repeat(digitsArray[j])}${work[i].passingPoint[j]}`.slice(-digitsArray[j])
         }
         work[i].structure = work[i].passingPoint.slice(0, digitsArray.length - 1).join("")
       }
-      let digitsNumeric = 0
+      let digitsNumeric = Math.max(...work.map(rly => rly.passingPoint[0].length))
       for (let i in work) {
-        digitsNumeric = Math.max(digitsNumeric, work[i].passingPoint[0].length)
-      }
-      for (let i in work) {
-        work[i].dna = `${work[i].passingPoint}${"0".repeat(digitsNumeric - 1)}`.slice(0, digitsNumeric)
+        work[i].dna = `${work[i].passingPoint}${"0".repeat(digitsNumeric)}`.slice(0, digitsNumeric)
       }
       return work.sort((a, b) => a.dna - b.dna)
     },
-    compareArray: work => {
+    arrayComparator: work => {
       for (let i in work[0]) {
-        if (work[0][i].content.structure !== work[1][i].content.structure) {
+        if (work[0][i].structure !== work[1][i].structure) {
           return 2 // different structure
         }
         else if (work[0][i].content instanceof Object) {
@@ -100,11 +89,11 @@ function comparearray(array0, array1) {
       reject(false)
     })
   }
-  return fn.operateDouble(fn.breakDimension, [array0, array1])
+  return fn.doubleOperator(fn.dimensionBreaker, [array0, array1])
   .then(rly => {
-    return fn.operateDouble(fn.analyzeStructure, [rly[0], rly[1]])
+    return fn.doubleOperator(fn.structureAnalizer, [rly[0], rly[1]])
   })
   .then(rly => {
-    return fn.compareArray(rly)
+    return fn.arrayComparator(rly)
   })
 }

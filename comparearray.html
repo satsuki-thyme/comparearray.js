@@ -106,7 +106,7 @@
         let message = ""
         let returnValue = 0
         elm_execute.onclick = () => {
-          comparearray(Array.from(ndl_textarea[0].value), Array.from(ndl_textarea[1].value))
+          comparearray(JSON.parse(ndl_textarea[0].value), JSON.parse(ndl_textarea[1].value))
           .then(rly => {
             switch (rly) {
               case 0:
@@ -149,11 +149,3 @@
     </div>
   </body>
 </html>
-
-<script>
-[
-  {"key0": 0},
-  {"key1": 1},
-  {"key2": ["a", "b", "c", "d"]}
-]
-</script>
